@@ -15,4 +15,5 @@ Gem::Specification.new do |s|
   s.license      = 'MIT'
   s.required_ruby_version = '~> 2.6'
   s.add_dependency 'sinatra', '~> 2.1'
+  s.add_dependency 'docker-compose', '~> 1.1'
 end

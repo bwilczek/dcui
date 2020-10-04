@@ -2,11 +2,15 @@ PATH
   remote: .
   specs:
     watir_pump (0.0.1)
+      docker-compose (~> 1.1)
       sinatra (~> 2.1)
 
 GEM
   remote: https://rubygems.org/
   specs:
+    backticks (1.0.2)
+    docker-compose (1.1.12)
+      backticks (~> 1.0)
     mustermann (1.1.1)
       ruby2_keywords (~> 0.0.1)
     rack (2.2.3)

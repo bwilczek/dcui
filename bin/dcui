@@ -1,7 +1,9 @@
 #!/bin/bash
 
 BIN_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-APP_DIR=$BIN_DIR/..
+ROOT_DIR=$BIN_DIR/..
 
-cd $APP_DIR
-ruby server.rb
+DC_DIR=${1:-$PWD}
+
+cd $ROOT_DIR
+bundle exec ruby backend/server.rb $DC_DIR
