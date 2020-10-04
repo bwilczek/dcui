@@ -11,15 +11,15 @@ get '/' do
   File.read('public/index.html')
 end
 
-get '/api/greeting/:name' do
-  {greeting: "Hello #{params['name']}!"}.to_json
-end
-
 get '/api/status' do
-  raw_config = Docker::Compose::Session.new(dir: DC_DIR).config
+  dc = Docker::Compose::Session.new(dir: DC_DIR)
+  raw_config = dc.config
+  raw_ps = dc.ps
   ret = []
   raw_config['services'].each_pair do |service, data|
-    ret << { image: data['image'], container_name: data['container_name'], service: service, status: '??'}
+    service_data = { image: data['image'], container_name: data['container_name'], service: service}
+    service_data[:status] = raw_ps.find { |c| c.labels.include?("com.docker.compose.service=#{service}") }&.status&.to_s || 'down'
+    ret << service_data
   end
   ret.to_json
 end
