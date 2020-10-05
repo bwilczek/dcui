@@ -14,10 +14,10 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
-    this.fetchConfig()
+    this.fetchStatus()
   }
 
-  async fetchConfig() {
+  async fetchStatus() {
     try {
       this.setState(state => ({...state, loading: true}))
       const response = await axios.get('/api/status');
@@ -28,10 +28,22 @@ export default class App extends React.Component {
     }
   }
 
+  async containerAction(action, service) {
+    try {
+      this.setState(state => ({...state, loading: true}))
+      await axios.post(`/api/container/${service}/${action}`);
+      this.fetchStatus();
+    } catch (error) {
+      this.setState(state => ({...state, loading: false}))
+      console.error(error);
+    }
+  }
+
   render() {
     return (
       <div className="App">
-        { this.state.loading ? <LoadingScreen /> : <ServiceList status={this.state.status} /> }
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+        { this.state.loading ? <LoadingScreen /> : <ServiceList status={this.state.status} containerAction={this.containerAction.bind(this)}/> }
       </div>
     );
   }
