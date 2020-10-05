@@ -43,7 +43,7 @@ export default class App extends React.Component {
     return (
       <div className="App">
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
-        { this.state.loading ? <LoadingScreen /> : <ServiceList status={this.state.status} containerAction={this.containerAction.bind(this)}/> }
+        { this.state.loading ? <LoadingScreen /> : <ServiceList status={this.state.status.services} containerAction={this.containerAction.bind(this)}/> }
       </div>
     );
   }

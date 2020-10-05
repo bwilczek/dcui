@@ -1,0 +1,17 @@
+cucumber-local:
+  - postgresql
+  - api-gateway-cucumber
+  - redis
+  - elasticsearch_test
+  - graphql-gateway
+  - kafka
+  - zoo
+
+platform:
+  - postgresql
+  - api-gateway
+  - redis
+  - elasticsearch
+  - graphql-gateway
+  - kafka
+  - zoo

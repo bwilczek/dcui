@@ -3,8 +3,5 @@
 BIN_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 ROOT_DIR=$BIN_DIR/..
 
-DC_DIR=${1:-$PWD}
-DC_FILE=${2:-docker-compose.yml}
-
 cd $ROOT_DIR
-bundle exec ruby backend/server.rb $DC_DIR $DC_FILE
+bundle exec ruby backend/server.rb
