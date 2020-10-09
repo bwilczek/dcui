@@ -1,5 +1,6 @@
 import React from 'react';
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import LoadingScreen from './LoadingScreen';
 import ServiceList from './ServiceList';
 const axios = require('axios')
@@ -43,7 +44,7 @@ export default class App extends React.Component {
     return (
       <div className="App">
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
-        { this.state.loading ? <LoadingScreen /> : <ServiceList status={this.state.status.services} containerAction={this.containerAction.bind(this)}/> }
+        { this.state.loading ? <LoadingScreen /> : <ServiceList services={this.state.status.services} environments={this.state.status.environments} containerAction={this.containerAction.bind(this)}/> }
       </div>
     );
   }
