@@ -48,7 +48,6 @@ export default class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
         { (this.state.loadingMessage !== null) ?
           <LoadingScreen loadingMessage={this.state.loadingMessage}/> :
           <ServiceList services={this.state.status.services}

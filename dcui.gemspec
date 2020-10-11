@@ -1,14 +1,12 @@
 # frozen_string_literal: true
 
-$LOAD_PATH.push File.expand_path('lib', __dir__)
-
 Gem::Specification.new do |s|
-  s.name         = 'watir_pump'
+  s.name         = 'dcui'
   s.version      = '0.0.1'
   s.summary      = 'Docker Compose Web UI'
   s.author       = 'Bartek Wilczek'
   s.email        = 'bwilczek@gmail.com'
-  s.files        = Dir['README.md', 'lib/**/*.rb', 'server.rb', 'public/*'] + Dir['bin/*']
+  s.files        = Dir['README.md', 'public/**/*', 'bin/*']
   s.executables  << 'dcui'
   s.require_path = 'lib'
   s.homepage     = 'https://github.com/bwilczek/dcui'
