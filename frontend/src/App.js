@@ -9,8 +9,9 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      loading: true,
-      status: []
+      loadingMessage: 'Initializing...',
+      status: {},
+      selectedEnvironment: '__all'
     };
   }
 
@@ -20,31 +21,42 @@ export default class App extends React.Component {
 
   async fetchStatus() {
     try {
-      this.setState(state => ({...state, loading: true}))
+      this.setState(state => ({...state, loadingMessage: 'Fetching status...'}))
       const response = await axios.get('/api/status');
-      this.setState(state => ({...state, loading: false, status: response.data}))
+      this.setState(state => ({...state, loadingMessage: null, status: response.data}))
     } catch (error) {
-      this.setState(state => ({...state, loading: false}))
+      this.setState(state => ({...state, loadingMessage: null}))
       console.error(error);
     }
   }
 
-  async containerAction(action, service) {
+  async containerAction(action, services) {
     try {
-      this.setState(state => ({...state, loading: true}))
-      await axios.post(`/api/container/${service}/${action}`);
+      this.setState(state => ({...state, loadingMessage: `Executing action "${action}" on services: ${services.join(',')}`}))
+      await axios.post(`/api/container/${services.join(',')}/${action}`);
       this.fetchStatus();
     } catch (error) {
-      this.setState(state => ({...state, loading: false}))
+      this.setState(state => ({...state, loadingMessage: null}))
       console.error(error);
     }
+  }
+
+  setSelectedEnvironment(newEnv) {
+    this.setState(state => ({...state, selectedEnvironment: newEnv}))
   }
 
   render() {
     return (
       <div className="App">
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
-        { this.state.loading ? <LoadingScreen /> : <ServiceList services={this.state.status.services} environments={this.state.status.environments} containerAction={this.containerAction.bind(this)}/> }
+        { (this.state.loadingMessage !== null) ?
+          <LoadingScreen loadingMessage={this.state.loadingMessage}/> :
+          <ServiceList services={this.state.status.services}
+                       environments={this.state.status.environments}
+                       selectedEnvironment={this.state.selectedEnvironment}
+                       setSelectedEnvironment={this.setSelectedEnvironment.bind(this)}
+                       containerAction={this.containerAction.bind(this)} />
+        }
       </div>
     );
   }

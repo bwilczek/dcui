@@ -4,6 +4,8 @@ require 'docker/compose'
 
 set default_content_type: 'text/json'
 set bind: '0.0.0.0'
+set port: ENV.fetch('DCUI_PORT', 4567)
+set :server_settings, :timeout => 90
 
 DC_DIR = ENV.fetch('DCUI_APP_DIR', ENV['PWD'])
 DC_FILE = ENV.fetch('DCUI_FILE_NAME', 'docker-compose.yml')
@@ -33,18 +35,18 @@ get '/api/status' do
   ret.to_json
 end
 
-post '/api/container/:service/:action' do
-  service = params[:service]
+post '/api/container/:services/:action' do
+  services = params[:services].split(',')
   action = params[:action]
   result = case action
            when 'start'
-             dc.up(service, detached: true)
+             dc.up(*services, detached: true)
            when 'stop'
-             dc.stop(service)
+             dc.stop(*services)
            when 'restart'
-             dc.restart(service)
+             dc.restart(*services)
            else
              halt 400, "Action #{action} is not supported"
            end
-  {service: service, action: action, result: result}.to_json
+  {services: services, action: action, result: result}.to_json
 end

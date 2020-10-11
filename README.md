@@ -2,16 +2,23 @@
 
 # Web UI for docker-compose
 
+Configuration via env vars:
 ```
-# clone this repo
-DCUI_APP_DIR=~/work/toptal/platform DCUI_FILE_NAME=docker-compose-tests.yml ./bin/dcui
+DCUI_APP_DIR
+DCUI_FILE_NAME
+DCUI_PORT
 ```
 
-File path to store environments (subsets of services):
 ```
-$DCUI_APP_DIR/.dcui.yml
+# clone this repo
+DCUI_APP_DIR=./example  ./bin/dcui
 ```
-see example content in this repo
+
+File to store environments (subsets of services):
+```
+.dcui.yml
+```
+see example content in `example` dir.
 
 The UI is present at http://localhost:4567
 

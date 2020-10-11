@@ -1,0 +1,6 @@
+system-test:
+  - redis_test
+  - mysql_test
+development:
+  - redis_dev
+  - mysql_dev

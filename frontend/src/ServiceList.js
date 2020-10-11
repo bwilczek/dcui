@@ -3,42 +3,35 @@ import Service from './Service'
 import { Button, ButtonGroup } from 'react-bootstrap';
 
 export default class ServiceList extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      selectedEnvironment: '__all'
-    };
-  }
-
   render() {
     const filterForCurrentEnv = (s) => {
-      if(this.state.selectedEnvironment === '__all') {
+      if(this.props.selectedEnvironment === '__all') {
         return true;
       }
-      return this.props.environments[this.state.selectedEnvironment].includes(s.service)
+      return this.props.environments[this.props.selectedEnvironment].includes(s.service)
     }
 
     const selectEnv = (e) => {
       e.persist();
-      this.setState(state => (
-        {...state, selectedEnvironment: e.target.getAttribute('data-environment')}
-      ))
+      this.props.setSelectedEnvironment(e.target.getAttribute('data-environment'))
     }
 
     const startAll = (e) => {
-      console.log("Starting:",this.props.services.filter(filterForCurrentEnv).map(s => s.service));
+      const services = this.props.services.filter(filterForCurrentEnv).map(s => s.service);
+      this.props.containerAction('start', services)
     }
 
     const stopAll = (e) => {
-      console.log("Stopping:",this.props.services.filter(filterForCurrentEnv).map(s => s.service));
+      const services = this.props.services.filter(filterForCurrentEnv).map(s => s.service);
+      this.props.containerAction('stop', services)
     }
 
     const environments = [
-      <Button key='__all' data-environment='__all' variant="light" onClick={(e) => this.setState(state => ({...state, selectedEnvironment: '__all'}))}>ALL</Button>
+      <Button key='__all' active={this.props.selectedEnvironment === '__all'} data-environment='__all' variant="light" onClick={(e) => this.props.setSelectedEnvironment('__all')}>ALL</Button>
     ];
     // FIXME: .keys() is not defined for this.props.environments
     for(let env in this.props.environments) {
-      environments.push(<Button key={env} data-environment={env} variant="light" onClick={selectEnv}>{env}</Button>)
+      environments.push(<Button key={env}  active={this.props.selectedEnvironment === env} data-environment={env} variant="light" onClick={selectEnv}>{env}</Button>)
     }
 
     return (
